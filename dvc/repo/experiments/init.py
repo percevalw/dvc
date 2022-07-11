@@ -258,13 +258,19 @@ def init(
         cmd=context["cmd"],
         deps=compact([context.get("code"), context.get("data")]),
         params=[{params: None}] if params else None,
-        metrics_no_cache=compact([context.get("metrics"), live_metrics]),
-        plots_no_cache=compact([context.get("plots"), live_plots]),
         force=force,
         **{
             "checkpoints"
             if type == "checkpoint"
-            else "outs": compact([models])
+            else "outs": compact([models]),
+            "metrics_persist_no_cache"
+            if type == "checkpoint"
+            else "metrics_no_cache": compact(
+                [context.get("metrics"), live_metrics]
+            ),
+            "plots_persist_no_cache"
+            if type == "checkpoint"
+            else "plots_no_cache": compact([context.get("plots"), live_plots]),
         },
     )
 
