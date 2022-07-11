@@ -222,14 +222,9 @@ class CmdPlotsModify(CmdPlots):
 
 
 class CmdPlotsTemplates(CmdBase):
-    TEMPLATES_CHOICES = [
-        "simple",
-        "linear",
-        "confusion",
-        "confusion_normalized",
-        "scatter",
-        "smooth",
-    ]
+    from dvc_render.vega_templates import TEMPLATES
+
+    TEMPLATES_CHOICES = [t.DEFAULT_NAME for t in TEMPLATES]
 
     def run(self):
         from dvc_render.vega_templates import dump_templates
