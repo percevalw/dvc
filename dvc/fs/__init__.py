@@ -132,6 +132,11 @@ def _get_cloud_fs(repo_config, **kwargs):
         if checksum_jobs:
             remote_conf["checksum_jobs"] = checksum_jobs
 
+    if "jobs" not in remote_conf:
+        jobs = core_config.get("jobs")
+        if jobs:
+            remote_conf["jobs"] = jobs
+
     cls = get_fs_cls(remote_conf)
 
     url = remote_conf.pop("url")

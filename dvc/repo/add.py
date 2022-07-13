@@ -79,8 +79,6 @@ def check_arg_combinations(args):
         message = "{option} can't be used without --to-remote"
         if kwargs.get("remote"):
             invalid_opt = "--remote"
-        elif kwargs.get("jobs"):
-            invalid_opt = "--jobs"
 
     if invalid_opt is not None:
         raise InvalidArgumentError(message.format(option=invalid_opt))
@@ -196,7 +194,7 @@ def add(  # noqa: C901
                 try:
                     stage.save(merge_versioned=True)
                     if not no_commit:
-                        stage.commit()
+                        stage.commit(**kwargs)
                 except CacheLinkError:
                     link_failures.append(str(stage.relpath))
             stage.dump()
