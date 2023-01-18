@@ -100,7 +100,6 @@ def _read_metrics(repo, metrics, rev, onerror=None):
                 continue
 
         res[rel_metric_path] = _read_metric(metric, fs, rev, onerror=onerror)
-
     return res
 
 
