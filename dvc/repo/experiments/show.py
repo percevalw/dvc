@@ -160,6 +160,8 @@ def _collect_complete_experiment(
             else:
                 exp.update(collected_exp["data"])
         else:
+            if "data" not in collected_exp:
+                continue
             exp = collected_exp["data"]
         if rev not in results:
             results[rev] = {"data": exp}

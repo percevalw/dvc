@@ -56,6 +56,7 @@ def apply_overrides(path: "StrPath", overrides: List[str]) -> None:
     from hydra._internal.config_loader_impl import ConfigLoaderImpl
     from hydra.errors import ConfigCompositionException, OverrideParseException
     from omegaconf import OmegaConf
+    from omegaconf.base import SCMode
 
     from .serialize import MODIFIERS
 
@@ -75,7 +76,14 @@ def apply_overrides(path: "StrPath", overrides: List[str]) -> None:
             OmegaConf.set_struct(new_data, True)
             # pylint: disable=protected-access
             ConfigLoaderImpl._apply_overrides_to_config(parsed, new_data)
-            new_data = OmegaConf.to_object(new_data)
+            #new_data = OmegaConf.to_object(new_data)
+            new_data = OmegaConf.to_container(
+                cfg=new_data,
+                resolve=False,
+                throw_on_missing=True,
+                enum_to_str=False,
+                structured_config_mode=SCMode.INSTANTIATE,
+            )
         except hydra_errors as e:
             raise InvalidArgumentError("Invalid `--set-param` value") from e
 
