@@ -77,7 +77,6 @@ def parse_config(text, path, decoder=None):
         parser = configparser.ConfigParser(interpolation=None)
         parser.optionxform = str
         parser.read_string(text)
-        assert parser["corpora.dev"]["path"] == "${paths.dev}", "???" + str(parser["corpora.dev"]["path"])
         config = {}
         for section in parser.sections():
             parts = split_path(section)
@@ -98,7 +97,6 @@ def parse_config(text, path, decoder=None):
 def _dump(data, stream):
     import configparser
 
-    assert data['corpora']['dev']['path'] == "${paths.dev}", "!!!" + str(data['corpora']['dev']['path'])
     prepared = flatten_sections(data)
 
     parser = configparser.ConfigParser(interpolation=None)
@@ -107,7 +105,6 @@ def _dump(data, stream):
     for section_name, section in prepared.items():
         parser.add_section(section_name)
         parser[section_name].update({k: config_literal_dump(v) for k, v in section.items()})
-    assert parser["corpora.dev"]["path"] == "${paths.dev}", parser["corpora.dev"]["path"]
 
     return parser.write(stream)
 
