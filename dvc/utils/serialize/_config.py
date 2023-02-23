@@ -3,8 +3,8 @@ import re
 from ast import literal_eval
 from contextlib import contextmanager
 from typing import Dict, Any
+import json
 
-import srsly
 from funcy import reraise
 
 from ._common import ParseError, _dump_data, _load_data, _modify_data
@@ -36,7 +36,7 @@ def config_literal_eval(s: str):
         return literal_eval(s)
     except (ValueError, SyntaxError):
         try:
-            return srsly.json_loads(s)
+            return json.loads(s)
         except ValueError:
             return s
 
@@ -44,8 +44,8 @@ def config_literal_dump(v: Any):
     if isinstance(v, str):
         if config_literal_eval(str(v)) == v:
             return str(v)
-        return srsly.json_dumps(v)
-    return srsly.json_dumps(v)
+        return json.dumps(v)
+    return json.dumps(v)
         
 
 def flatten_sections(root: Dict[str, Any]) -> Dict[str, Any]:
